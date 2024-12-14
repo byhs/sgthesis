@@ -1,0 +1,115 @@
+% !TEX encoding = UTF-8 Unicode
+
+% DocumentMetadata
+\DocumentMetadata{ 
+    pdfstandard = a-2b,
+    pdfversion  = 1.7,
+    lang        = en-US,
+}
+
+\documentclass[degree=master]{sgthesis}
+% \documentclass[degree=phd]{sgthesis}
+
+% 논문 정보 설정
+\Title{Thesis Title}
+\Subtitle{논문 제목}
+\Author{김저자}
+\Supervisor{김지도}
+\Department{컴퓨터공학}
+\Major{}
+\DegreeDate{2026}{1}{1}
+\ApprovalDate{2026}{1}{2}
+
+% 심사위원 설정
+% 첫번째 committee가 주심, 나머지는 부심으로 출력
+\committee{John Doe}%
+\committee{Jane Smith}%
+\committee{Michael Brown}%
+\committee{David Johnson}%
+\committee{Changgyu Lee}%
+
+% BibLaTeX 설정
+\usepackage[style=ieee,maxbibnames=10,sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+
+% 패키지
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+
+
+% Hyperref 메타데이터 설정
+\hypersetup{
+	pdftitle={pdftitle},
+	pdfauthor={Changgyu Lee},
+	colorlinks=false
+}
+
+% abstractpage 환경 정의
+\newenvironment{abstractpage}{
+    \clearpage
+    \thispagestyle{empty}
+    \begin{center}
+    {\large \bfseries Abstract}
+    \end{center}
+}{
+    \clearpage
+}
+
+
+\begin{document}
+
+% 한번에
+% 겉표지, 표제면, 제출서, 인준서
+\makefrontmatter
+
+
+% 따로
+% \MakeCover   % 겉표지
+% \cleardoublepage
+
+% \MakeTitlePage  % 표제면
+% \cleardoublepage
+
+% \MakeSubmissionSheet % 제출서
+% \cleardoublepage
+
+% \MakeApprovalSheet % 인준서
+% \cleardoublepage
+
+
+%%% 목차 및 표/그림 리스트 %%%
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+\cleardoublepage
+
+%%% Abstract %%%
+\begin{abstractpage}
+So much abstract
+
+\noindent\textbf{Keywords}: Keywords
+\end{abstractpage}
+\cleardoublepage
+
+%%% 본문 %%%
+% \include{contents/chapter1.tex}
+% \include{contents/chapter2.tex}
+\chapter{Introduction}
+Introduction.
+
+%%% 참고문헌 %%%
+\chapter*{References}
+\printbibliography[heading=none]
+\cleardoublepage
+
+\end{document}
