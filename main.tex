@@ -1,39 +1,38 @@
-% !TEX encoding = UTF-8 Unicode
-
-% DocumentMetadata
-\DocumentMetadata{ 
-    pdfstandard = a-2b,
-    pdfversion  = 1.7,
-    lang        = en-US,
-}
+%%% sgthesis class
+% degree = master|phd
+% doclang = korean|english (default: korean)
 
 \documentclass[degree=master]{sgthesis}
 % \documentclass[degree=phd]{sgthesis}
+% \documentclass[degree=master,doclang=korean]{sgthesis}
+% \documentclass[degree=phd,doclang=korean]{sgthesis}
+% \documentclass[degree=master,doclang=english]{sgthesis}
+% \documentclass[degree=phd,doclang=english]{sgthesis}
 
-% 논문 정보 설정
+%%% 논문 정보
 \Title{Thesis Title}
 \Subtitle{논문 제목}
 \Author{김저자}
 \Supervisor{김지도}
 \Department{컴퓨터공학}
 \Major{}
-\DegreeDate{2026}{1}{1}
-\ApprovalDate{2026}{1}{2}
+\DegreeDate{1972}{11}{21}
+\ApprovalDate{1972}{11}{21}
 
-% 심사위원 설정
+%%% 심사위원 설정
 % 첫번째 committee가 주심, 나머지는 부심으로 출력
-\committee{John Doe}%
-\committee{Jane Smith}%
-\committee{Michael Brown}%
-\committee{David Johnson}%
-\committee{Changgyu Lee}%
+\committee{김주심}%
+\committee{이부심}%
+\committee{박부심}%
+\committee{최부심}%
+\committee{정부심}%
 
-% BibLaTeX 설정
-\usepackage[style=ieee,maxbibnames=10,sorting=none]{biblatex}
+%%% BibLaTeX 설정
+\usepackage[style=english]{csquotes}
+\usepackage[style=ieee,language=english]{biblatex}
 \addbibresource{ref.bib}
 
-
-% 패키지
+%%% 패키지
 \usepackage{listings}
 \usepackage{enumitem}
 \usepackage{tikz}
@@ -44,48 +43,37 @@
 \usepackage{array}
 \usepackage{amsmath}
 
-
-% Hyperref 메타데이터 설정
+%%% Hyperref 메타데이터 설정
 \hypersetup{
 	pdftitle={pdftitle},
-	pdfauthor={Changgyu Lee},
+	pdfauthor={pdfauthor},
 	colorlinks=false
 }
 
-% abstractpage 환경 정의
-\newenvironment{abstractpage}{
-    \clearpage
-    \thispagestyle{empty}
-    \begin{center}
-    {\large \bfseries Abstract}
-    \end{center}
-}{
-    \clearpage
-}
+%%% 감사의 글
+\Acknowledgments{감사합니다.}
+% \Acknowledgments{\input{contents/ack.tex}}
 
+%%% 국문 초록 및 키워드 
+\KAbstract{국문 초록. 2페이지 이내.}
+% \KAbstract{\input{contents/abstract_kor.tex}}
+\KKeywords{핵심, 낱말, 7-8단어}
+
+%%% 영문 초록 및 키워드
+\EAbstract{English Abstract. At most 2 pages.}
+% \EAbstract{\input{contents/abstract_eng.tex}}
+\EKeywords{Key, Word, 7-8 words}
+
+
+%%% Document
 
 \begin{document}
 
-% 한번에
+%%% 양식 출력 %%%
 % 겉표지, 표제면, 제출서, 인준서
 \makefrontmatter
 
-
-% 따로
-% \MakeCover   % 겉표지
-% \cleardoublepage
-
-% \MakeTitlePage  % 표제면
-% \cleardoublepage
-
-% \MakeSubmissionSheet % 제출서
-% \cleardoublepage
-
-% \MakeApprovalSheet % 인준서
-% \cleardoublepage
-
-
-%%% 목차 및 표/그림 리스트 %%%
+%%% 차례 및 표/그림 차례 %%%
 \tableofcontents
 \cleardoublepage
 \listoffigures
@@ -93,23 +81,33 @@
 \listoftables
 \cleardoublepage
 
-%%% Abstract %%%
-\begin{abstractpage}
-So much abstract
-
-\noindent\textbf{Keywords}: Keywords
-\end{abstractpage}
+%%% 국문요약 및 주제어 %%%
+\MakeKoreanAbstract
 \cleardoublepage
 
-%%% 본문 %%%
+%%% 본문
 % \include{contents/chapter1.tex}
-% \include{contents/chapter2.tex}
-\chapter{Introduction}
-Introduction.
+\chapter{서론}
+서론
 
-%%% 참고문헌 %%%
-\chapter*{References}
+\chapter{본론}
+본론
+
+\chapter{결론}
+결론
+
+\cleardoublepage
+
+
+%%% 참고문헌
+\ShowBibliographyHeading
+\begin{selectlanguage}{english}
 \printbibliography[heading=none]
+\end{selectlanguage}
+\cleardoublepage
+
+%%% 영문초록 및 주제어
+\MakeEnglishAbstract
 \cleardoublepage
 
 \end{document}
