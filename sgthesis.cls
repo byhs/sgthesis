@@ -3,10 +3,7 @@
 \ProvidesClass{sgthesis}[2024/12/12 Sogang University Thesis Class]
 
 % report 클래스 기반, A4용지 11pt, two-sided
-\LoadClass[a4paper, 11pt, twoside]{report}
-
-% no page number on blank page by cleardoublepage
-\usepackage{emptypage}
+\LoadClass[a4paper, 11pt]{report}
 
 % 폰트 설정
 \RequirePackage{unicode-math}
@@ -449,7 +446,9 @@
     \begin{textblock}{\ptMinusFromWidth{140mm}}[0.5,0](\centerWidthPT,\ptFromPageBottom{80mm})
       \centering
       \noindent
-      \fontsize{16pt}{16pt}\selectfont \sg@degreeyear 년 \sg@degreemonth 월 \sg@degreeday 일
+      % \fontsize{16pt}{16pt}\selectfont \sg@degreeyear 년 \sg@degreemonth 월 \sg@degreeday 일
+      %% 월까지만 나와도 된다고 함.
+      \fontsize{16pt}{16pt}\selectfont \sg@degreeyear 년 \sg@degreemonth 월
     \end{textblock}
 
     % 대학원
@@ -529,7 +528,8 @@
   }
 
   \sg@acknowledgments
-  
+
+  ~
   \clearpage
 }
 
@@ -611,24 +611,21 @@
 
 % Make front matter
 \newcommand{\makefrontmatter}{%
-    \MakeCover   % 겉표지
-    \thispagestyle{empty}
-    \cleardoublepage
+    %% Online 제출은 겉표지가 필요없다.
+    % \MakeCover   % 겉표지
+    % \thispagestyle{empty}
+    % \cleardoublepage
 
     \MakeTitlePage  % 표제면
-    \thispagestyle{empty}
     \cleardoublepage
 
     \MakeSubmissionSheet % 제출서
-    \thispagestyle{empty}
     \cleardoublepage
 
     \MakeApprovalSheet % 인준서
-    \thispagestyle{empty}
     \cleardoublepage
 
     \MakeAcknowledgement % 감사의 글
-    \thispagestyle{empty}
     \cleardoublepage
 }
 
