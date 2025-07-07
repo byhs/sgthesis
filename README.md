@@ -7,6 +7,7 @@
 - 비공식 템플릿임.
 - 일부 여백이나 위치가 지침과 다를 수 있음. (지침을 최대한 따르려고 노력함)
 - Tested on Overleaf (LuaLaTeX, TeXLive 2024)
+- Overleaf에서 타임아웃 문제 발생시 두번 컴파일 해보기.
 
 ## 주요 기능  
 - **학위 설정**: `degree=phd` 또는 `degree=master`  
