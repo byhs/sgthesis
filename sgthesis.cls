@@ -6,16 +6,29 @@
 \LoadClass[a4paper, 11pt]{report}
 
 % 폰트 설정
+\usepackage{fontspec}
+\defaultfontfeatures{}  
 \RequirePackage{unicode-math}
 \RequirePackage{luatexko}
 \setmainfont{Latin Modern Roman}
 \setsansfont{Latin Modern Sans}
 \setmonofont{Latin Modern Mono}
 \setmathfont{Latin Modern Math}
+\defaultfontfeatures+{Renderer=HarfBuzz}
 %% 한글폰트
-\setmainhangulfont{Noto Serif CJK KR}
-\setsanshangulfont{Noto Sans CJK KR}
-\setmonohangulfont{Noto Sans Mono CJK KR}
+\setmainhangulfont[
+  Path        = fonts/ ,
+  Extension   = .ttf ,
+  UprightFont = *-Regular ,
+  BoldFont    = *-Bold
+]{NotoSerifKR}
+
+\setsanshangulfont[
+  Path        = fonts/ ,
+  Extension   = .ttf ,
+  UprightFont = *-Regular ,
+  BoldFont    = *-Bold
+]{NotoSa
 
 % Babel 설정 추가
 \RequirePackage[english,korean,provide*=*]{babel}
