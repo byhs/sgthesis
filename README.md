@@ -6,8 +6,8 @@
 ## 유의사항  
 - 비공식 템플릿임.
 - 일부 여백이나 위치가 지침과 다를 수 있음. (지침을 최대한 따르려고 노력함)
-- Tested on Overleaf (LuaLaTeX, TeXLive 2024)
-- Overleaf에서 타임아웃 문제 발생시 두번 컴파일 해보기.
+- Tested on Overleaf (pdfLaTex, LuaLaTeX, TeXLive 2024)
+- Overleaf에서 pdfLaTex로 컴파일 시 나눔명조, LuaLaTeX로 컴파일시 은바탕체 적용.
 
 ## 주요 기능  
 - **학위 설정**: `degree=phd` 또는 `degree=master`  
@@ -17,4 +17,8 @@
 
 ## 사용 방법  
 - LuaLaTeX  
-- 예제 파일 참고  
+- 예제 파일 참고
+
+## Acknowledgements
+This project was originally created by [Changgyu Lee](https://github.com/nona1314).  
+Thanks a lot for the great initial version!
