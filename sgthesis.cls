@@ -1,37 +1,13 @@
 % sgthesis.cls
-% \NeedsTeXFormat{LaTeX2e}
+\NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sgthesis}[2024/12/12 Sogang University Thesis Class]
 
 % report 클래스 기반, A4용지 11pt, two-sided
 \LoadClass[a4paper, 11pt]{report}
 
-% 폰트 설정
-\usepackage{fontspec}
-\defaultfontfeatures{}  
-\RequirePackage{unicode-math}
-\RequirePackage{luatexko}
-\setmainfont{Latin Modern Roman}
-\setsansfont{Latin Modern Sans}
-\setmonofont{Latin Modern Mono}
-\setmathfont{Latin Modern Math}
-\defaultfontfeatures+{Renderer=HarfBuzz}
-%% 한글폰트
-\setmainhangulfont[
-  Path        = fonts/ ,
-  Extension   = .ttf ,
-  UprightFont = *-Regular ,
-  BoldFont    = *-Bold
-]{NotoSerifKR}
-
-\setsanshangulfont[
-  Path        = fonts/ ,
-  Extension   = .ttf ,
-  UprightFont = *-Regular ,
-  BoldFont    = *-Bold
-]{NotoSa
-
 % Babel 설정 추가
 \RequirePackage[english,korean,provide*=*]{babel}
+\RequirePackage{kotex} % PDFLaTeX: fontspec·xeCJK 등 XeLaTeX 전용 패키지 없이 kotex로 한글 처리
 
 % 여백 설정
 \RequirePackage{geometry}
@@ -52,7 +28,7 @@
 \setlength{\parskip}{0pt}
 
 % Hyperref 및 링크 색상
-\RequirePackage{hyperref}
+\RequirePackage[unicode=true]{hyperref}
 \RequirePackage[dvipsnames,svgnames,x11names]{xcolor}
 \hypersetup{
     colorlinks=true,
@@ -76,7 +52,6 @@
 \RequirePackage{subcaption}
 \RequirePackage{etoolbox}
 \RequirePackage[absolute,overlay]{textpos}
-\RequirePackage{luacode}
 \RequirePackage{tikz}
 
 \newcommand{\seal}{%
@@ -93,34 +68,21 @@
 \setlength{\TPVertModule}{1pt}
 \textblockorigin{0pt}{0pt}
 
-% Lua 함수를 정의하여 mm -> pt 변환
-\begin{luacode}
-  function toPt(length)
-    return tex.sp(length) / 65536
-  end
 
-  function ptFromPageBottom(length)
-    return (tex.dimen.paperheight - tex.sp(length)) / 65536
-  end
+% PDFLaTeX용 절대 좌표 계산을 위한 도우미 명령들 정의
 
-  function ptMinusFromWidth(length)
-    return (tex.dimen.paperwidth - tex.sp(length)) / 65536
-  end
-\end{luacode}
-
-% 미리계산
-\edef\pageWidthPT{\directlua{tex.sprint(tex.dimen.paperwidth / 65536)}} % 전체 너비
-\edef\pageHeightPT{\directlua{tex.sprint(tex.dimen.paperheight / 65536)}} % 전체 높이
-\edef\centerWidthPT{\directlua{tex.sprint(tex.dimen.paperwidth / 65536 / 2)}} % 가로 중앙
-
-% mm -> pt 변환 및 하단 기준 위치 계산
-\newcommand{\toPt}[1]{\directlua{tex.sprint(toPt("#1"))}}
-\newcommand{\ptFromPageBottom}[1]{\directlua{tex.sprint(ptFromPageBottom("#1"))}}
-\newcommand{\ptMinusFromWidth}[1]{\directlua{tex.sprint(ptMinusFromWidth("#1"))}}
-
+\makeatletter
+\edef\pageWidthPT{\strip@pt\paperwidth}
+\edef\pageHeightPT{\strip@pt\paperheight}
+\edef\centerWidthPT{\strip@pt\dimexpr\paperwidth/2\relax}
+\newcommand{\toPt}[1]{\strip@pt\dimexpr#1\relax}
+\newcommand{\ptFromPageBottom}[1]{\strip@pt\dimexpr \paperheight - #1\relax}
+\newcommand{\ptMinusFromWidth}[1]{\strip@pt\dimexpr \paperwidth - #1\relax}
+\makeatother
 
 % 초기화
 \newcommand{\sgcommittees}{}% 심사위원 목록
+\makeatletter % 클래스 옵션 처리를 위해 @ 문자를 문자로 변경
 
 \def\sg@degreeopt{}
 \def\sg@languageopt{}
@@ -202,7 +164,7 @@
     
     % chapter 제목: 16pt, 진하게
     \titleformat{\chapter}[display]
-      {\bfseries\fontsize{16pt}{20pt}\selectfont}{\chaptername~\thechapter}{20pt}{}
+      {\normalfont\bfseries\Huge}{\chaptername~\thechapter}{20pt}{}
     
     % section 제목: 13pt, 진하게
     \titleformat{\section}
@@ -257,7 +219,6 @@
 \newcounter{commcount}
 
 \newcommand{\printcommittee}[1]{%
-    \typeout{#1}
   \ifnum\value{commcount}=0
     \noindent주심: #1 \hfill \seal \par\vspace*{1.5cm}
   \else
@@ -275,16 +236,6 @@
   \clearpage
   \aftergroup\restoregeometry
 }
-
-
-% 그냥 확인
-\typeout{DEBUG: \pageWidthPT}
-\typeout{DEBUG: \pageHeightPT}
-\typeout{DEBUG: \centerWidthPT}
-\typeout{DEBUG: toPt: \toPt{20mm}}
-\typeout{DEBUG: ptFromPageBottom: \ptFromPageBottom{40mm}}
-\typeout{DEBUG: ptMinusFromWidth: \ptMinusFromWidth{90mm}}
-
 
 % 겉표지
 \newcommand{\MakeCover}{%
@@ -437,7 +388,8 @@
     % 지도교수
     %% 좌우 6.5cm 여백
     % 제목 두줄되면 자리 모자름. 내려야됨.
-    % \begin{textblock}{\ptMinusFromWidth{130mm}}[0.5,0](\centerWidthPT,\toPt{100mm})
+    \begin{textblock}{\ptMinusFromWidth{130mm}}[0.5,0](\centerWidthPT,\toPt{100mm})
+    \end{textblock}
     \begin{textblock}{\ptMinusFromWidth{130mm}}[0.5,0](\centerWidthPT,\toPt{150mm})
       \centering
       \noindent
@@ -451,7 +403,7 @@
     \begin{textblock}{\ptMinusFromWidth{80mm}}[0.5,0](\centerWidthPT,\ptFromPageBottom{100mm})
       \centering
       \noindent
-      \fontsize{16pt}{16pt}\selectfont 이 논문을 \sg@department\ \ifsg@phd 박사 \else 석사 \fi 학위논문으로 제출함
+      \fontsize{16pt}{16pt}\selectfont 이 논문을 \sg@department\ \ifsg@phd 박사\else 석사\fi 학위논문으로 제출함
     \end{textblock}
 
     % 제출일
@@ -504,7 +456,8 @@
     % 인준 문구
     %% 좌우 4.5cm 여백
     \begin{textblock}{\ptMinusFromWidth{90mm}}[0.5,0](\centerWidthPT,\toPt{50mm})
-      \centering{\fontsize{16pt}{16pt}\selectfont \sg@author의 \sg@department\ \ifsg@phd 박사\else 석사\fi 학위논문을 인준함.}
+      \centering
+      {\fontsize{16pt}{16pt}\selectfont \sg@author의 \sg@department\ \ifsg@phd 박사\else 석사\fi 학위논문을 인준함.}
     \end{textblock}
     
     % 인준 일자
@@ -599,6 +552,16 @@
   \clearpage
 }
 
+\makeatletter
+\renewcommand{\cleardoublepage}{%
+  \clearpage
+  \ifodd\value{page}\else
+    \null
+    \thispagestyle{empty}
+    \newpage
+  \fi
+}
+\makeatother
 
 % TOC에 추가로 넣을 것들
 \apptocmd{\tableofcontents}{\cleardoublepage}{}{}
